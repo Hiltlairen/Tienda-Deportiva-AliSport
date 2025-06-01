@@ -1,0 +1,153 @@
+/* Contenedor principal - Usando variables CSS */
+.carousel-container {
+  max-width: 1000px;
+  margin: var(--spacing-xl) auto;
+  padding: 0 var(--spacing-md);
+}
+
+.carousel-title {
+  composes: section-title; /* Si usas CSS Modules */
+  /* O alternativamente: */
+  text-align: center;
+  font-size: var(--font-size-xxl);
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+/* Estilos para react-slick */
+.custom-slick {
+  border: var(--border-thick);
+}
+
+.slick-slide-item {
+  padding: 0 var(--spacing-xs);
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  color: var(--primary-color);
+  font-size: var(--font-size-sm);
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--primary-color);
+}
+
+/* Tarjeta de oferta */
+.oferta-card {
+  display: flex;
+  width: 100%;
+  min-height: 400px;
+}
+
+.oferta-imagen {
+  flex: 1;
+  border-right: var(--border-thick);
+}
+
+.oferta-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.oferta-contenido {
+  flex: 1;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.oferta-producto {
+  font-size: var(--font-size-xl);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-md);
+  font-weight: normal;
+}
+
+.oferta-precios {
+  margin-bottom: var(--spacing-lg);
+}
+
+.precio-antiguo {
+  text-decoration: line-through;
+  margin-right: var(--spacing-md);
+  color: var(--text-light);
+}
+
+.precio-nuevo {
+  font-weight: bold;
+  font-size: var(--font-size-lg);
+}
+
+/* Botones - Reemplazados por clases estandarizadas */
+.oferta-botones {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+/* Eliminamos .boton-outlined y .boton-filled pues usaremos las clases estandarizadas */
+
+/* Contenedor del carrusel */
+.carousel-wrapper {
+  position: relative;
+}
+
+/* Flechas personalizadas */
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: var(--border-thick);
+  color: var(--primary-color);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.custom-arrow:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.prev-arrow {
+  left: -50px;
+}
+
+.next-arrow {
+  right: -50px;
+}
+
+/* Ajustes responsive para flechas */
+@media (max-width: 768px) {
+  .custom-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: var(--font-size-md);
+  }
+  
+  .prev-arrow {
+    left: -30px;
+  }
+  
+  .next-arrow {
+    right: -30px;
+  }
+}
+
+.custom-slick {
+  margin: 0 var(--spacing-md);
+}

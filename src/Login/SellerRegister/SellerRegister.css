@@ -1,0 +1,219 @@
+/* SellerRegister.css - Actualizado */
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 78vh;
+  padding: 2rem 0;
+  background-color: #f5f5f5;
+}
+
+.register-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Logo y título (mantenido igual) */
+.logo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.register-logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+#inicio {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+#inicio::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background-color: #333;
+}
+
+/* Nuevo diseño de columnas */
+.form-columns {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-column {
+  flex: 1;
+}
+
+.form-section-title {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* Inputs (mantenido igual con pequeños ajustes) */
+.input-container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.register-form input,
+.register-form select,
+.register-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.register-form input:focus,
+.register-form select:focus,
+.register-form textarea:focus {
+  border-color: #333;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Checkboxes para categorías */
+.categories-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0.5rem 0;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-option input {
+  width: auto;
+  margin: 0;
+}
+
+.checkbox-option label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.other-category {
+  margin-top: 0.5rem;
+}
+
+.other-category input {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+/* Botón (mantenido igual) */
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #555;
+}
+
+.submit-btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* Mensaje de error (mantenido igual) */
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(211, 47, 47, 0.1);
+  border-radius: 4px;
+}
+
+/* Enlaces (mantenido igual) */
+.register-links {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.register-links a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.register-links a:hover {
+  color: #555;
+  text-decoration: underline;
+}
+.input-hint {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+
+/* Asegurar que los inputs de ubicación tengan buen espacio */
+.store-data .input-container {
+  margin-bottom: 1.2rem;
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .register-page {
+    padding: 1rem;
+  }
+  
+  .register-container {
+    padding: 1.5rem;
+  }
+  
+  .form-columns {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .categories-checkboxes {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

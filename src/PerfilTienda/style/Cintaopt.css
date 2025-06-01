@@ -1,0 +1,63 @@
+/* Contenedor principal */
+.option-tape-container {
+    width: 250px;
+    flex-shrink: 0;
+  }
+  
+  /* Cinta de opciones */
+  .option-tape {
+    width: 250px;
+    padding: 1.5rem;
+    background-color: white;
+    border-right: 2px solid black;
+    height: calc(100vh - 140px); /* Ajuste para header y footer */
+    position: sticky;
+    top: 80px; /* Altura del header */
+    overflow-y: auto;
+  }
+  
+  .option-tape button {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+  }
+  
+  .option-tape button:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .option-tape-container {
+      width: 100%;
+    }
+    
+    .option-tape {
+      width: 100%;
+      height: auto;
+      position: static;
+      border-right: none;
+      border-bottom: 2px solid black;
+      display: flex;
+      overflow-x: auto;
+      padding: 0.5rem 1rem;
+    }
+    
+    .option-tape button {
+      margin: 0.5rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-align: center;
+    }
+  }

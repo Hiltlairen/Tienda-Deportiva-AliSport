@@ -1,0 +1,67 @@
+.formulario-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formulario-columna {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  input, select, button {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  button {
+    
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    
+  }
+  /* Agregar estos estilos al archivo SubirProducto.css */
+
+.multi-select-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.multi-select-option {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #ddd;
+}
+
+.multi-select-option:hover {
+  background-color: #e0e0e0;
+}
+
+.multi-select-option.selected {
+  background-color: #4a6fa5;
+  color: white;
+  border-color: #4a6fa5;
+}
+
+.selected-values {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #555;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+  

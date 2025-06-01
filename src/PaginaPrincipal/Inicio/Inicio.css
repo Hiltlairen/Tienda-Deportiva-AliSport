@@ -1,0 +1,97 @@
+.featured-products {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+}
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.loading {
+  color: #555;
+}
+
+.error {
+  color: #d32f2f;
+}
+.section-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background-color: black;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+.cta-buttons {
+  
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.cta-outlined, .cta-filled {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-outlined {
+  background: transparent;
+  border: 2px solid black;
+  color: black;
+}
+
+.cta-outlined:hover {
+  background-color: black;
+  color: white;
+}
+
+.cta-filled {
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+}
+
+.cta-filled:hover {
+  background-color: #333;
+  border-color: #333;
+}
+
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .cta-outlined, .cta-filled {
+    width: 100%;
+  }
+
+}
