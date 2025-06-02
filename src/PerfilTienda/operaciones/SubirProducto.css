@@ -21,13 +21,10 @@
   
   button {
     
-    color: white;
+
     cursor: pointer;
   }
-  
-  button:hover {
-    
-  }
+
   /* Agregar estos estilos al archivo SubirProducto.css */
 
 .multi-select-container {

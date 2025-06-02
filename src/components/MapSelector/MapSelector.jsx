@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
+import PropTypes from 'prop-types';
 const defaultPosition = [-16.5, -68.15]; // La Paz, Bolivia
 
 const markerIcon = new L.Icon({
@@ -56,3 +56,11 @@ const MapSelector = ({ onLocationSelect, initialPosition }) => {
 };
 
 export default MapSelector;
+MapSelector.propTypes = {
+  onLocationSelect: PropTypes.func.isRequired,
+  initialPosition: PropTypes.arrayOf(PropTypes.number)
+};
+
+LocationMarker.propTypes = {
+  onLocationSelect: PropTypes.func.isRequired
+};

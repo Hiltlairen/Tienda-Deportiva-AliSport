@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TiendaForm from '../../components/Form/TiendaForm';
 import Storage from '../../services/storage';
+import { fetchUserProfile } from '../../services/back';
 
 function SellerRegister() {
   const location = useLocation();
@@ -22,7 +23,7 @@ function SellerRegister() {
 
   useEffect(() => {
     if (!id_usuario) {
-      navigate('/login'); // Redirige si no hay ID de usuario
+      navigate('/login');
     }
   }, [id_usuario, navigate]);
 
@@ -32,7 +33,6 @@ function SellerRegister() {
   };
 
   const handleLocationSelect = (location) => {
-    console.log("📍 Ubicación recibida en SellerRegister:", location); // DEBUG
     setFormData((prev) => ({
       ...prev,
       ubicacion: {
@@ -40,6 +40,31 @@ function SellerRegister() {
         longitude: location.longitude,
       },
     }));
+  };
+
+  const handleLoginAfterRegister = async () => {
+    try {
+      // Obtenemos el perfil del usuario usando el id_usuario
+      const userProfile = await fetchUserProfile(id_usuario);
+      
+      if (userProfile) {
+        // Guardamos los datos del usuario en el Storage
+        Storage.setUserData({
+          id_usuario: id_usuario,
+          correo: userProfile.correo,
+          rol: 'vendedor', // Asumimos que es vendedor ya que está registrando tienda
+          ...userProfile
+        });
+
+        // Redirigimos al dashboard del vendedor
+        navigate('/dashboard');
+      } else {
+        setError('No se pudo obtener el perfil del usuario');
+      }
+    } catch (err) {
+      console.error('Error al obtener perfil:', err);
+      setError('Ocurrió un error al cargar el perfil del usuario');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -64,8 +89,6 @@ function SellerRegister() {
       lng: formData.ubicacion.longitude,
     };
 
-    console.log("📦 Enviando datos al backend:", payload); // DEBUG
-
     try {
       const response = await fetch('http://localhost/back-ropa/l0gin_vende_cli/register_store.php', {
         method: 'POST',
@@ -80,17 +103,18 @@ function SellerRegister() {
       }
 
       const data = await response.json();
-      console.log("📥 Respuesta del backend:", data); // DEBUG
-
+      
       if (data.success) {
         Storage.setStoreData({ id_tienda: data.id_tienda });
         setSuccess('Tienda registrada con éxito.');
-        navigate('/dashboard');
+        
+        // Después de registrar la tienda, cargamos el perfil y redirigimos
+        await handleLoginAfterRegister();
       } else {
         setError(data.message || 'Error al registrar tienda.');
       }
     } catch (err) {
-      console.error('❌ Error al registrar tienda:', err);
+      console.error('Error al registrar tienda:', err);
       setError('Ocurrió un error en el servidor.');
     } finally {
       setLoading(false);
@@ -98,29 +122,41 @@ function SellerRegister() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <TiendaForm
-          formData={formData}
-          onInputChange={handleInputChange}
-          onLocationSelect={handleLocationSelect}
-        />
+    <div className="seller-register-page flex flex-center">
+      <div className="seller-register-container">
+        <h1 className="seller-brand-title">ALISPORT</h1>
+        <h2 className="seller-form-title">Registrar Nueva Tienda</h2>
+        
+        <form onSubmit={handleSubmit}>
+          <TiendaForm
+            formData={formData}
+            onInputChange={handleInputChange}
+            onLocationSelect={handleLocationSelect}
+          />
 
-        {/* Mensajes */}
-        {error && <p style={{ color: 'red', marginTop: '1rem' }}>{error}</p>}
-        {success && <p style={{ color: 'green', marginTop: '1rem' }}>{success}</p>}
+          {error && <p className="seller-error-message">{error}</p>}
+          {success && <p className="seller-success-message">{success}</p>}
 
-        {/* Botón de registro */}
-        <div className="submit-btn-container">
           <button
             type="submit"
-            className="submit-btn"
+            className="seller-submit-btn"
             disabled={loading}
           >
             {loading ? 'Registrando...' : 'Registrar Tienda'}
           </button>
+        </form>
+        
+        <div className="seller-form-footer">
+          <div className="seller-footer-links">
+            <a href="#">Términos y condiciones</a>
+            <a href="#">Política de privacidad</a>
+            <a href="#">Contacto</a>
+          </div>
+          <div className="seller-copyright">
+            © {new Date().getFullYear()} Todos los derechos reservados
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

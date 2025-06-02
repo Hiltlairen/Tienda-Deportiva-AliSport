@@ -1,0 +1,85 @@
+/* TiendaForm.css */
+.tienda-form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: var(--border-thick);
+  border-radius: var(--border-radius);
+  background-color: white;
+}
+
+.tienda-form-title {
+  text-align: center;
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-xl);
+  text-transform: uppercase;
+  position: relative;
+}
+
+.tienda-form-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+.tienda-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.input-container {
+  width: 100%;
+}
+
+.input-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-color);
+}
+
+.input-field {
+  width: 100%;
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-md);
+  border: var(--border-thin);
+  border-radius: var(--border-radius);
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.location-message {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--success-color, #388e3c);
+}
+
+/* Estilos para el textarea */
+.textarea-field {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tienda-form-container {
+    padding: var(--spacing-md);
+    margin: var(--spacing-md);
+    width: auto;
+  }
+  
+  .tienda-form-title {
+    font-size: var(--font-size-lg);
+  }
+}

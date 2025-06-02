@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Obtener datos del usuario del localStorage
-    const id_usuario = localStorage.getItem('id_usuario');
+    const id_usuario = sessionStorage.getItem('id_usuario');
     const nombre = localStorage.getItem('nombre');
     const correo = localStorage.getItem('correo');
     const rol = localStorage.getItem('rol');

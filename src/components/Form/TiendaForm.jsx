@@ -1,15 +1,16 @@
 import React from 'react';
 import MapSelector from '../MapSelector/MapSelector';
+import './TiendaForm.css';
 
 const TiendaForm = ({ formData, onInputChange, onLocationSelect }) => {
   return (
-    <div className="login-container">
-      <h2 className="text-2xl font-bold mb-4">Registrar Nueva Tienda</h2>
+    <div className="tienda-form-container">
+      <h2 className="tienda-form-title">Registrar Nueva Tienda</h2>
 
-      <div className="login-form">
+      <div className="tienda-form">
         {/* Nombre de la tienda */}
         <div className="input-container">
-          <label className="font-semibold mb-1">Nombre de la Tienda</label>
+          <label className="input-label">Nombre de la Tienda</label>
           <input
             type="text"
             name="nombreTienda"
@@ -22,7 +23,7 @@ const TiendaForm = ({ formData, onInputChange, onLocationSelect }) => {
 
         {/* CI del propietario */}
         <div className="input-container">
-          <label className="font-semibold mb-1">CI del Propietario</label>
+          <label className="input-label">CI del Propietario</label>
           <input
             type="text"
             name="ciPropietario"
@@ -35,18 +36,18 @@ const TiendaForm = ({ formData, onInputChange, onLocationSelect }) => {
 
         {/* Descripción */}
         <div className="input-container">
-          <label className="font-semibold mb-1">Descripción (opcional)</label>
+          <label className="input-label">Descripción (opcional)</label>
           <textarea
             name="descripcion"
             value={formData.descripcion}
             onChange={onInputChange}
-            className="input-field"
+            className="input-field textarea-field"
           />
         </div>
 
         {/* NIT */}
         <div className="input-container">
-          <label className="font-semibold mb-1">NIT</label>
+          <label className="input-label">NIT</label>
           <input
             type="text"
             name="nit"
@@ -59,11 +60,11 @@ const TiendaForm = ({ formData, onInputChange, onLocationSelect }) => {
 
         {/* Ubicación */}
         <div className="input-container">
-          <label className="font-semibold mb-1">Ubicación de la Tienda</label>
+          <label className="input-label">Ubicación de la Tienda</label>
           <MapSelector onLocationSelect={onLocationSelect} />
 
           {/* Mostrar ubicación solo si existe */}
-          <div className="mt-2 text-sm text-green-700">
+          <div className="location-message">
             {formData.ubicacion ? (
               `Ubicación seleccionada: ${formData.ubicacion.latitude?.toFixed(4)}, ${formData.ubicacion.longitude?.toFixed(4)}`
             ) : (

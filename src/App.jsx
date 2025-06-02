@@ -13,6 +13,7 @@ import ProfilePage from './Perfil/ProfilePage';
 import ViewProduct from './Productos/Product/ViewProduct';
 //VENDEDOR
 import Dashboard from './PerfilTienda/Dashboard';
+import RegistrarTienda from './Login/RegistrarTienda/RegistrarTienda';
 ///PUBLIC
 import Inicio from './PaginaPrincipal/Inicio/Inicio';
 //import NotFound from './pages/NotFound';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/seller-register" element={<SellerRegister />} />
           {/* VENDEDOR*/}
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/registrar-tienda" element={<RegistrarTienda />} />
           {/*Perfil */}
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/editaruser" element={<EditarPerfil />} />
