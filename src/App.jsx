@@ -22,6 +22,10 @@ import Inicio from './PaginaPrincipal/Inicio/Inicio';
 //Editar datos
 import EditarPerfil from './components/EditPerfil/EditarPerfil';
 
+//COMPONENTE EN 3D <3
+import OfertaPersonalizada from "./components/OfertaPersonalizada/OfertaPersonalizada.jsx";
+import Home from "./components/3d/pages/Home.jsx";
+import Viewer from "./components/3d/pages/Viewer.jsx";
 
 function App() {
   return (
@@ -52,6 +56,16 @@ function App() {
           
           {/* Ruta 404 */}
           {/*<Route path="*" element={<NotFound />} />*/}
+
+          {/* Ruta inicial con botón y modelo girando */}
+          <Route path="/" element={<OfertaPersonalizada />} />
+
+          {/* Ruta al seleccionar "Personalizar ahora" */}
+          <Route path="/personalizar" element={<Home />} />
+
+          */{/* Ruta cuando seleccionas un modelo 3D */}
+          <Route path="/viewer/:modelId" element={<Viewer />} />*
+
         </Routes>
       </main>
 
