@@ -1,249 +1,185 @@
-/* Variables de color */
-:root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --secondary: #e11d48;
-  --accent: #3b82f6;
-  --dark: #111827;
-  --light: #f9fafb;
-  --gray: #6b7280;
-}
-
 /* Estructura principal */
-.promo-section {
+.premium-carousel-section {
   max-width: 1200px;
-  margin: 3rem auto;
-  padding: 0 1.5rem;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 2rem;
+  margin: 4rem auto;
+  padding: 0 2rem;
 }
 
 .section-title {
   font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #0f172a;
   font-weight: 800;
-  color: var(--dark);
-  margin-bottom: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
-.section-subtitle {
-  font-size: 1.1rem;
-  color: var(--gray);
-  font-weight: 500;
+/* Contenedor del slide */
+.slide-content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  min-height: 500px;
 }
 
-/* Carrusel */
-.carousel-wrapper {
+/* Sección de imagen - ahora más grande */
+.product-image-container {
   position: relative;
-  padding: 0 2.5rem;
-}
-
-.game-carousel {
-  margin: 0 -10px;
-}
-
-/* Tarjeta de producto */
-.game-card {
-  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
   border-radius: 12px;
   overflow: hidden;
-  margin: 0 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+  height: 500px;
 }
 
-.game-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
-
-.card-badge {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background-color: var(--secondary);
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  z-index: 2;
-}
-
-.game-image {
-  position: relative;
-  height: 250px;
-  overflow: hidden;
-}
-
-.game-image img {
+.product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 2rem;
   transition: transform 0.5s ease;
 }
 
-.game-card:hover .game-image img {
-  transform: scale(1.05);
+.product-image.placeholder {
+
+  background: #f1f5f9;
+}
+
+/* Badges */
+.product-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #3b82f6;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 700;
+  z-index: 2;
+  text-transform: uppercase;
 }
 
 .discount-bubble {
   position: absolute;
-  bottom: 15px;
-  right: 15px;
-  background-color: var(--primary);
+  bottom: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  background: #e11d48;
   color: white;
-  width: 60px;
-  height: 60px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.game-info {
-  padding: 1.5rem;
-}
-
-.game-title {
+  font-weight: 800;
   font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 1rem;
-  min-height: 3rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.price-container {
+/* Sección de información */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.product-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 1rem 0;
+  color: #0f172a;
+}
+
+.product-description {
+  font-size: 1.1rem;
+  color: #64748b;
   margin-bottom: 1.5rem;
 }
 
-.original-price {
+.price-container {
+  margin: 1.5rem 0;
+}
+
+.old-price {
   display: block;
-  font-size: 0.9rem;
-  color: var(--gray);
+  font-size: 1.2rem;
+  color: #94a3b8;
   text-decoration: line-through;
 }
 
-.discount-price {
+.new-price {
   display: block;
-  font-size: 1.5rem;
+  font-size: 2.2rem;
   font-weight: 800;
-  color: var(--primary-dark);
+  color: #1e40af;
 }
 
+/* Botones */
 .action-buttons {
   display: flex;
-  gap: 0.8rem;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .details-btn, .buy-btn {
-  flex: 1;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 6px;
+  padding: 1rem 2rem;
+  border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-transform: uppercase;
 }
 
 .details-btn {
-  background: white;
-  color: var(--primary);
-  border: 2px solid var(--primary);
+  background: transparent;
+  color: #1e40af;
+  border: 2px solid #1e40af;
 }
 
 .details-btn:hover {
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(30, 64, 175, 0.1);
 }
 
 .buy-btn {
-  background: var(--primary);
+  background: #1e40af;
   color: white;
+  border: none;
 }
 
 .buy-btn:hover {
-  background: var(--primary-dark);
+  background: #3b82f6;
   transform: translateY(-2px);
 }
 
-/* Flechas de navegación */
-.nav-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background: white;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.nav-arrow:hover {
-  background: var(--primary);
-  color: white;
-}
-
-.prev-arrow {
-  left: 0;
-}
-
-.next-arrow {
-  right: 0;
-}
-
-/* Puntos indicadores */
-.slick-dots {
-  bottom: -40px;
-}
-
-.slick-dots li button:before {
-  font-size: 12px;
-  color: var(--gray);
-}
-
-.slick-dots li.slick-active button:before {
-  color: var(--primary);
-}
-
 /* Responsive */
+@media (max-width: 992px) {
+  .slide-content {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+  .product-image-container {
+    height: 400px;
+  }
+}
+
 @media (max-width: 768px) {
-  .section-title {
-    font-size: 2rem;
+  .product-image-container {
+    height: 350px;
   }
   
-  .carousel-wrapper {
-    padding: 0 1.5rem;
+  .product-title {
+    font-size: 1.8rem;
   }
   
-  .nav-arrow {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
+  .action-buttons {
+    flex-direction: column;
   }
   
-  .game-title {
-    font-size: 1.1rem;
-  }
-  
-  .discount-price {
-    font-size: 1.3rem;
+  .details-btn, .buy-btn {
+    width: 100%;
   }
 }

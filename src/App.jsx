@@ -21,6 +21,8 @@ import Inicio from './PaginaPrincipal/Inicio/Inicio';
 
 //Editar datos
 import EditarPerfil from './components/EditPerfil/EditarPerfil';
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -40,6 +42,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/seller-login" element={<SellerLogin />} />
           <Route path="/seller-register" element={<SellerRegister />} />
+          
           {/* VENDEDOR*/}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/registrar-tienda" element={<RegistrarTienda />} />

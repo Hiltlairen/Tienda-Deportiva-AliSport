@@ -1,108 +1,117 @@
-import React from 'react';
-import './EpicStyleCarousel.css';
+import React, { useRef } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './Carousel.css';
 
-const featuredProducts = [
+const products = [
   {
     id: 1,
-    name: "POLERA NEGRA PREMIUM",
-    image: "/black.png",
+    name: "POLERA NEGRA PERFORMANCE",
+    image: {
+      src: "/black.png",
+      aspectRatio: "3/4" // Ancho/Alto
+    },
     oldPrice: "$59.990",
     newPrice: "$39.990",
     discount: "30% OFF",
-    tag: "DESTACADO",
-    description: "Polera de algodón premium para entrenamiento y uso diario."
+    tag: "EDICIÓN LIMITADA",
+    description: "Tecnología Dry-Fit para máximo rendimiento",
+    type: "vertical" // vertical, horizontal o square
   },
   {
     id: 2,
-    name: "CHAQUETA DEPORTIVA",
-    image: "/jacket.png",
+    name: "CHAQUETA URBANA AZUL",
+    image: {
+      src: "/fassion.png",
+      aspectRatio: "3/4"
+    },
     oldPrice: "$89.990",
     newPrice: "$59.990",
     discount: "33% OFF",
-    tag: "NUEVO"
+    tag: "NUEVO LANZAMIENTO",
+    type: "vertical"
   },
   {
     id: 3,
-    name: "POLERÓN AZUL",
-    image: "/hoodie.png",
+    name: "PANTALÓN DEPORTIVO TECH",
+    image: {
+      src: "/red.png",
+      aspectRatio: "4/3"
+    },
     oldPrice: "$65.990",
     newPrice: "$45.990",
     discount: "29% OFF",
-    tag: "OFERTA"
-  },
-  {
-    id: 4,
-    name: "SHORT DEPORTIVO",
-    image: "/shorts.png",
-    oldPrice: "$45.990",
-    newPrice: "$29.990",
-    discount: "34% OFF",
-    tag: "POPULAR"
+    tag: "MÁS VENDIDO",
+    type: "horizontal"
   }
+
+  // ...otros productos
 ];
 
-function EpicStyleCarousel() {
-  const mainProduct = featuredProducts[0];
-  const sideProducts = featuredProducts.slice(1);
+function PremiumCarousel() {
+  const sliderRef = useRef(null);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    pauseOnHover: true,
+    arrows: false,
+    fade: true
+  };
 
   return (
-    <div className="epic-carousel-container">
-      <div className="main-featured">
-        <div className="product-badge">{mainProduct.tag}</div>
-        <div className="discount-badge">{mainProduct.discount}</div>
-        
-        <div className="product-image-container">
-          <img 
-            src={mainProduct.image} 
-            alt={mainProduct.name}
-            className="main-product-image"
-          />
-        </div>
-        
-        <div className="product-info">
-          <h2 className="product-title">{mainProduct.name}</h2>
-          <p className="product-description">{mainProduct.description}</p>
-          
-          <div className="price-container">
-            <span className="old-price">{mainProduct.oldPrice}</span>
-            <span className="new-price">{mainProduct.newPrice}</span>
-          </div>
-          
-          <div className="button-group">
-            <button className="details-btn">Ver detalles</button>
-            <button className="buy-btn">Comprar ahora</button>
-          </div>
-        </div>
-      </div>
-      
-      <div className="side-products">
-        {sideProducts.map(product => (
-          <div key={product.id} className="side-product-card">
-            <div className="side-product-badge">{product.tag}</div>
+    <section className="premium-carousel-section">
+      <h2 className="section-title">COLECCIÓN PREMIUM</h2>
+
+      <Slider ref={sliderRef} {...settings} className="premium-slider">
+        {products.map(product => (
+          <div key={product.id} className="premium-slide">
+            <div className="product-badge">{product.tag}</div>
             
-            <div className="side-product-content">
-              <img 
-                src={product.image} 
-                alt={product.name}
-                className="side-product-image"
-              />
+            <div className="slide-content">
+              <div className="product-image-container">
+                <img 
+                  src={product.image.src} 
+                  alt={product.name}
+                  className="product-image"
+                  style={{
+                    aspectRatio: product.image.aspectRatio
+                  }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/placeholder-product.png';
+                    e.target.className = 'product-image placeholder';
+                  }}
+                />
+                <div className="discount-bubble">{product.discount}</div>
+              </div>
               
-              <div className="side-product-info">
-                <h3 className="side-product-title">{product.name}</h3>
+              <div className="product-info">
+                <p className="product-description">{product.description}</p>
+                <h3 className="product-title">{product.name}</h3>
                 
-                <div className="side-price-container">
-                  <span className="side-old-price">{product.oldPrice}</span>
-                  <span className="side-new-price">{product.newPrice}</span>
+                <div className="price-container">
+                  <span className="old-price">{product.oldPrice}</span>
+                  <span className="new-price">{product.newPrice}</span>
                 </div>
                 
-                <div className="side-discount-badge">{product.discount}</div>
+                <div className="action-buttons">
+                  <button className="details-btn">VER DETALLES</button>
+                  <button className="buy-btn">AÑADIR AL CARRITO</button>
+                </div>
               </div>
             </div>
           </div>
         ))}
-      </div>
-    </div>
+      </Slider>
+    </section>
   );
 }
 
-export default EpicStyleCarousel;
+export default PremiumCarousel;
