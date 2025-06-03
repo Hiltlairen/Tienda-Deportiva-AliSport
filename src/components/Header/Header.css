@@ -1,167 +1,155 @@
-/* Estilos base */
+/* Header.css - Botones Derecha y Tema Azul */
+
+/* Estructura base - Sin cambios */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
-  background-color: white;
-  border-bottom: 2px solid black;
+  background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 3px solid #3b82f6;
 }
 
+/* Logo - Izquierda */
 .logo a {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: black;
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
   text-decoration: none;
-  letter-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -1px;
   transition: all 0.3s ease;
 }
 
 .logo a:hover {
-  opacity: 0.8;
+  color: #93c5fd;
 }
 
-/* Nav para desktop */
-.nav {
+/* Contenedor derecho para todos los botones */
+.nav-container {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
+/* Nav - Ahora a la derecha */
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Botones principales - Estilo cápsula */
 .nav-button {
-  color: black;
+  color: white;
   text-decoration: none;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-weight: 600;
   font-size: 0.9rem;
-  padding: 0.5rem 0;
-  position: relative;
-  background: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.7rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
   border: none;
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .nav-button:hover {
-  font-weight: 600;
+  background: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
 }
 
-.nav-button::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: black;
-  transition: width 0.3s ease;
-}
-
-.nav-button:hover::after {
-  width: 100%;
-}
-
+/* Grupo de botones de usuario - Derecha */
 .button-group {
   display: flex;
   gap: 1rem;
-  margin-left: 1rem;
+  margin-left: 1rem; /* Separación del nav principal */
 }
 
+/* Botón outlined - Estilo neon */
 .outlined {
-  border: 2px solid black;
-  padding: 0.5rem 1.5rem !important;
-  border-radius: 0;
+  border: 2px solid #93c5fd;
+  background: transparent;
+  color: #93c5fd;
+  padding: 0.6rem 1.8rem !important;
+  border-radius: 50px;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .outlined:hover {
-  background-color: #f0f0f0;
+  background: rgba(147, 197, 253, 0.1);
+  border-color: #3b82f6;
+  color: white;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
-.filled {
-  background-color: black;
-  color: white !important;
-  padding: 0.5rem 1.5rem !important;
-  border-radius: 0;
-  transition: all 0.3s ease;
-}
-
-.filled:hover {
-  background-color: #333;
-}
-
-/* Estilos para móvil */
+/* Menú toggle (oculto en desktop) */
 .menu-toggle {
   display: none;
   background: none;
   border: none;
+  color: white;
   font-size: 1.5rem;
   cursor: pointer;
-  color: black;
-  z-index: 1001;
 }
 
+/* Responsive - Botones se colapsan */
 @media (max-width: 768px) {
   .header {
     padding: 1rem;
-    position: relative;
   }
-
+  
   .menu-toggle {
     display: block;
+    order: 2; /* Logo | Toggle | (Nav oculto) */
   }
-
-  .nav {
+  
+  .nav-container {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 70%;
+    width: 80%;
     height: 100vh;
-    background-color: white;
+    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
     flex-direction: column;
-    align-items: flex-start;
-    padding: 5rem 2rem;
-    gap: 1.5rem;
-    transition: right 0.3s ease;
-    border-left: 2px solid black;
-    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    transition: right 0.4s ease;
+    z-index: 999;
+    border-left: 3px solid #3b82f6;
   }
-
-  .nav.open {
+  
+  .nav-container.open {
     right: 0;
   }
-
+  
+  .nav {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+  
   .button-group {
     flex-direction: column;
+    width: 100%;
     margin-left: 0;
-    width: 100%;
-    gap: 1rem;
   }
-
-  .nav-button {
-    width: 100%;
-    padding: 0.8rem 0;
-    font-size: 1rem;
-  }
-
-  .outlined {
+  
+  .nav-button, .outlined {
     width: 100%;
     text-align: center;
+    padding: 1rem !important;
   }
-}
-
-/* Overlay para móvil */
-.nav.open::before {
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   
-  z-index: 999;
+  .outlined {
+    margin-top: 1rem;
+  }
 }

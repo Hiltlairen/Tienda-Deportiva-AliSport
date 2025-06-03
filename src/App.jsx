@@ -11,6 +11,7 @@ import SellerLogin from './Login/SellerLogin/SellerLogin';
 // Páginas Públicas PERFIL
 import ProfilePage from './Perfil/ProfilePage';
 import ViewProduct from './Productos/Product/ViewProduct';
+import ResumenPedido from './Productos/resumen/ResumenPedido';
 //VENDEDOR
 import Dashboard from './PerfilTienda/Dashboard';
 import RegistrarTienda from './Login/RegistrarTienda/RegistrarTienda';
@@ -31,6 +32,8 @@ function App() {
           {/* Ruta principal */}
           <Route path="/" element={<Inicio />} />
           <Route path="/producto/:id" element={<ViewProduct />} />
+          <Route path="/resumen-pedido" element={<ResumenPedido />} />
+
           
           {/* Login */}
           <Route path="/login" element={<Login />} />

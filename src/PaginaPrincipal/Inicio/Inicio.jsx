@@ -34,11 +34,7 @@ function Inicio() {
     <div className="inicio">
       <Carousel />
       <OfertaPersonalizada />
-      <CategoriesRibbon />
-      <div className="cta-buttons">
-          <button className="cta-outlined">VER COLECCIÓN</button>
-          <button className="cta-filled">¡DISEÑALO TU MISMO!</button>
-        </div>
+     
       
 
       <section className="featured-products">

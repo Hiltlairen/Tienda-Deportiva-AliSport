@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './ViewProduct.css';
 
 function ViewProduct() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState('');
-  const [quantity, setQuantity] = useState(1);
+  const [sizeQuantities, setSizeQuantities] = useState({});
+  const [paymentMethod, setPaymentMethod] = useState('');
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -21,7 +22,11 @@ function ViewProduct() {
           setError(data.message);
         } else {
           setProduct(data);
-          setSelectedSize(data.talla.split(',')[0]);
+          const initialQuantities = {};
+          data.talla.split(',').forEach(size => {
+            initialQuantities[size.trim()] = 0;
+          });
+          setSizeQuantities(initialQuantities);
         }
         setLoading(false);
       } catch (err) {
@@ -33,16 +38,47 @@ function ViewProduct() {
     fetchProduct();
   }, [id]);
 
+  const handleQuantityChange = (size, value) => {
+    const intVal = parseInt(value) || 0;
+    setSizeQuantities(prev => ({
+      ...prev,
+      [size]: Math.max(0, intVal)
+    }));
+  };
+
+  const totalUnits = () => Object.values(sizeQuantities).reduce((sum, qty) => sum + qty, 0);
+
+  const handleProceedToSummary = () => {
+    if (totalUnits() < product.cantidad_minima) {
+      alert(`Debe seleccionar al menos ${product.cantidad_minima} unidades en total`);
+      return;
+    }
+
+    navigate('/resumen-pedido', {
+      state: {
+        product,
+        sizeQuantities,
+        paymentMethod,
+        total: calculateTotal()
+      }
+    });
+  };
+
+  const calculateTotal = () => {
+  return Object.entries(sizeQuantities).reduce(
+    (sum, [size, qty]) => sum + (qty * product.precio), 0
+  );
+};
+
+
   if (loading) return <div className="loading">Cargando producto...</div>;
   if (error) return <div className="error">Error: {error}</div>;
   if (!product) return <div className="error">Producto no encontrado</div>;
 
-  // Asegúrate de que imagen_url sea un array antes de mapearlo
   const imageUrls = Array.isArray(product.imagen_url) ? product.imagen_url : [product.imagen_url];
 
   return (
     <div className="view-product-container">
-      {/* Ruta de navegación */}
       <div className="breadcrumb">
         <span>{product.id_tienda.toUpperCase()}</span> &gt; 
         <span>{product.categoria}</span> &gt; 
@@ -50,7 +86,6 @@ function ViewProduct() {
       </div>
 
       <div className="product-main">
-        {/* Galería de imágenes */}
         <div className="product-gallery">
           <div className="thumbnail-container">
             {imageUrls.map((img, index) => (
@@ -68,7 +103,6 @@ function ViewProduct() {
           </div>
         </div>
 
-        {/* Información del producto */}
         <div className="product-info">
           <h1 className="product-title">{product.nombre_producto}</h1>
           <div className="product-brand">Tienda: {product.id_tienda}</div>
@@ -82,46 +116,69 @@ function ViewProduct() {
             <p>{product.descripcion}</p>
           </div>
 
-          {/* Selectores */}
           <div className="product-options">
             <div className="option-group">
-              <label>Talla:</label>
-              <div className="size-options">
-                {product.talla.split(',').map(size => (
-                  <button
-                    key={size}
-                    className={`size-option ${selectedSize === size ? 'selected' : ''}`}
-                    onClick={() => setSelectedSize(size.trim())}
-                  >
-                    {size.trim()}
-                  </button>
-                ))}
+              <label>Seleccione tallas y cantidades:</label>
+              <div className="size-quantity-grid">
+                {product.talla.split(',').map(size => {
+                  const trimmedSize = size.trim();
+                  return (
+                    <div key={trimmedSize} className="size-quantity-item">
+                      <label>Talla {trimmedSize}</label>
+                      <input
+                        type="number"
+                        min={0}
+                        max={100}
+                        value={sizeQuantities[trimmedSize] || 0}
+                        onChange={(e) => handleQuantityChange(trimmedSize, e.target.value)}
+                        className="quantity-input"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
             <div className="option-group">
-              <label>Cantidad (mínimo {product.cantidad_minima}):</label>
-              <select 
-                value={quantity} 
-                onChange={(e) => setQuantity(parseInt(e.target.value))}
-                className="quantity-selector"
-              >
-                {Array.from({length: 10}, (_, i) => i + 1).map(num => (
-                  <option key={num} value={num}>{num}</option>
-                ))}
-              </select>
+              <label>Método de pago preferido:</label>
+              <div className="payment-methods">
+                <button
+                  className={`payment-method ${paymentMethod === 'qr' ? 'selected' : ''}`}
+                  onClick={() => setPaymentMethod('qr')}
+                >
+                  <span className="payment-icon">📱</span> Pago QR
+                </button>
+                <button
+                  className={`payment-method ${paymentMethod === 'efectivo' ? 'selected' : ''}`}
+                  onClick={() => setPaymentMethod('efectivo')}
+                >
+                  <span className="payment-icon">💵</span> Efectivo en tienda
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Botones de acción */}
+          <div className="preliminary-total">
+            <h3>Total preliminar: S/ {calculateTotal().toFixed(2)}</h3>
+            {totalUnits() < product.cantidad_minima && (
+              <div className="min-warning">
+                Debe seleccionar al menos {product.cantidad_minima} unidades en total.
+              </div>
+            )}
+          </div>
+
           <div className="action-buttons">
-            <button className="add-to-cart">Añadir al carrito</button>
-            <button className="buy-now">Comprar ahora</button>
+            <button 
+              className="summary-btn"
+              onClick={handleProceedToSummary}
+              disabled={totalUnits() < product.cantidad_minima}
+            >
+              Ver Resumen del Pedido
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Sección de detalles adicionales */}
       <div className="product-details">
         <h2>Detalles del producto</h2>
         <table>

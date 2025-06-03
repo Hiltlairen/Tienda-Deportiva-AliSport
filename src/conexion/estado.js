@@ -1,4 +1,4 @@
-// src/conexion/estado.js
+ // src/conexion/estado.js
 const API_BASE_URL = 'http://localhost/back-ropa';
 
 export const authService = {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { productoService } from '../../conexion/producto';
+import axios from 'axios';
 import './SubirProducto.css';
 
 const tallasDisponibles = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'Única'];
@@ -25,14 +25,13 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
     tiempo_produccion: '',
     talla: '',
     edades: '',
-    url_3d: '',
-    id_tienda: sessionStorage.getItem('id_tienda') || ''
+    url_3d: ''
   });
 
   const [selectedTallas, setSelectedTallas] = useState([]);
   const [selectedEdades, setSelectedEdades] = useState([]);
-  const [images, setImages] = useState([]);
-  const [previews, setPreviews] = useState([]);
+  const [imagen, setImagen] = useState(null);
+  const [previewImagen, setPreviewImagen] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mensaje, setMensaje] = useState({ text: '', type: '' });
 
@@ -51,7 +50,7 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
         : [...prev, talla];
       setFormData(prev => ({
         ...prev,
-        talla: newTallas.join(',')
+        talla: newTallas.join(', ')
       }));
       return newTallas;
     });
@@ -64,34 +63,22 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
         : [...prev, edad];
       setFormData(prev => ({
         ...prev,
-        edades: newEdades.join(',')
+        edades: newEdades.join(', ')
       }));
       return newEdades;
     });
   };
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    
-    if (files.length > 5) {
-      setMensaje({ text: 'Máximo 5 imágenes permitidas', type: 'error' });
-      return;
-    }
-
-    setImages(files);
-    
-    // Crear vistas previas
-    const newPreviews = files.map(file => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagen(file);
       const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImagen(reader.result);
+      };
       reader.readAsDataURL(file);
-      return new Promise(resolve => {
-        reader.onload = () => resolve(reader.result);
-      });
-    });
-
-    Promise.all(newPreviews).then(results => {
-      setPreviews(results);
-    });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -99,30 +86,40 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
     setIsSubmitting(true);
     setMensaje({ text: '', type: '' });
 
-    // Validaciones
-    const errors = [];
-    if (images.length === 0) errors.push('Debes subir al menos una imagen');
-    if (selectedTallas.length === 0) errors.push('Selecciona al menos una talla');
-    if (selectedEdades.length === 0) errors.push('Selecciona al menos un rango de edad');
-    if (!formData.nombre_producto.trim()) errors.push('El nombre del producto es requerido');
-    if (!formData.precio || formData.precio <= 0) errors.push('El precio debe ser mayor a 0');
-    if (!formData.categoria) errors.push('La categoría es requerida');
+    if (selectedTallas.length === 0) {
+      setMensaje({ text: 'Seleccione al menos una talla', type: 'error' });
+      setIsSubmitting(false);
+      return;
+    }
 
-    if (errors.length > 0) {
-      setMensaje({ text: errors.join(', '), type: 'error' });
+    if (selectedEdades.length === 0) {
+      setMensaje({ text: 'Seleccione al menos un rango de edad', type: 'error' });
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const result = await productoService.uploadProduct(formData, images);
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach(key => {
+        formDataToSend.append(key, formData[key]);
+      });
 
-      if (result.success) {
-        setMensaje({ 
-          text: 'Producto publicado exitosamente!', 
-          type: 'success' 
-        });
-        // Reset form
+      if (imagen) {
+        formDataToSend.append('imagen', imagen);
+      }
+
+      if (tiendaData?.id_tienda) {
+        formDataToSend.append('id_tienda', tiendaData.id_tienda);
+      }
+
+      const response = await axios.post(
+        'http://localhost/back-ropa/dashboard/subirProducto.php',
+        formDataToSend,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+
+      if (response.data.success) {
+        setMensaje({ text: 'Producto publicado exitosamente!', type: 'success' });
         setFormData({
           nombre_producto: '',
           precio: '',
@@ -132,25 +129,18 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
           tiempo_produccion: '',
           talla: '',
           edades: '',
-          url_3d: '',
-          id_tienda: sessionStorage.getItem('id_tienda') || ''
+          url_3d: ''
         });
         setSelectedTallas([]);
         setSelectedEdades([]);
-        setImages([]);
-        setPreviews([]);
+        setImagen(null);
+        setPreviewImagen(null);
       } else {
-        setMensaje({ 
-          text: result.message || 'Error al publicar el producto', 
-          type: 'error' 
-        });
+        setMensaje({ text: response.data.message || 'Error al publicar el producto', type: 'error' });
       }
     } catch (error) {
       console.error('Error:', error);
-      setMensaje({ 
-        text: error.message || 'Error al conectar con el servidor', 
-        type: 'error' 
-      });
+      setMensaje({ text: error.response?.data?.message || 'Error al conectar con el servidor', type: 'error' });
     } finally {
       setIsSubmitting(false);
     }
@@ -170,11 +160,9 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
       )}
 
       <form onSubmit={handleSubmit} className="producto-form">
-        {/* Campos del formulario */}
         <div className="form-group">
-          <label htmlFor="nombre_producto">Nombre del Producto *</label>
+          <label>Nombre del Producto *</label>
           <input
-            id="nombre_producto"
             type="text"
             name="nombre_producto"
             value={formData.nombre_producto}
@@ -184,23 +172,19 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="precio">Precio (Bs) *</label>
+          <label>Precio *</label>
           <input
-            id="precio"
             type="number"
             name="precio"
             value={formData.precio}
             onChange={handleChange}
-            min="0.01"
-            step="0.01"
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="descripcion">Descripción *</label>
+          <label>Descripción *</label>
           <textarea
-            id="descripcion"
             name="descripcion"
             value={formData.descripcion}
             onChange={handleChange}
@@ -209,9 +193,8 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="categoria">Categoría *</label>
+          <label>Categoría *</label>
           <select
-            id="categoria"
             name="categoria"
             value={formData.categoria}
             onChange={handleChange}
@@ -225,9 +208,8 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="cantidad_minima">Cantidad mínima de pedido *</label>
+          <label>Cantidad mínima de pedido *</label>
           <input
-            id="cantidad_minima"
             type="number"
             name="cantidad_minima"
             value={formData.cantidad_minima}
@@ -238,48 +220,34 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="tiempo_produccion">Tiempo estimado de producción (días) *</label>
+          <label>Tiempo estimado de producción (en días) *</label>
           <input
-            id="tiempo_produccion"
             type="number"
             name="tiempo_produccion"
             value={formData.tiempo_produccion}
             onChange={handleChange}
-            min="1"
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="url_3d">URL del modelo 3D (opcional)</label>
+          <label>URL del modelo 3D (opcional)</label>
           <input
-            id="url_3d"
-            type="url"
+            type="text"
             name="url_3d"
             value={formData.url_3d}
             onChange={handleChange}
-            placeholder="https://ejemplo.com/modelo-3d"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="imagenes">Imágenes del producto (máx. 5) *</label>
-          <input 
-            id="imagenes"
-            type="file" 
-            multiple
-            accept="image/*"
-            onChange={handleImageChange}
-            required
-          />
-          <div className="image-previews">
-            {previews.map((preview, index) => (
-              <div key={index} className="image-preview">
-                <img src={preview} alt={`Vista previa ${index + 1}`} />
-                <span>{images[index].name}</span>
-              </div>
-            ))}
-          </div>
+          <label>Imagen del producto *</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} required />
+          {previewImagen && (
+            <div className="preview-imagen">
+              <img src={previewImagen} alt="Vista previa" />
+            </div>
+          )}
         </div>
 
         <div className="form-section">
@@ -289,17 +257,16 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
             <label>Tallas Disponibles *</label>
             <div className="multi-select-container">
               {tallasDisponibles.map(talla => (
-                <button
-                  type="button"
+                <div
                   key={talla}
                   className={`multi-select-option ${selectedTallas.includes(talla) ? 'selected' : ''}`}
                   onClick={() => handleTallaChange(talla)}
-                  aria-pressed={selectedTallas.includes(talla)}
                 >
                   {talla}
-                </button>
+                </div>
               ))}
             </div>
+            <input type="hidden" name="talla" value={formData.talla} />
             <div className="selected-values">
               Seleccionadas: {selectedTallas.length > 0 ? selectedTallas.join(', ') : 'Ninguna'}
             </div>
@@ -309,37 +276,24 @@ const SubirProducto = ({ userInfo, tiendaData }) => {
             <label>Rangos de Edad *</label>
             <div className="multi-select-container">
               {edadesDisponibles.map(edad => (
-                <button
-                  type="button"
+                <div
                   key={edad}
                   className={`multi-select-option ${selectedEdades.includes(edad) ? 'selected' : ''}`}
                   onClick={() => handleEdadChange(edad)}
-                  aria-pressed={selectedEdades.includes(edad)}
                 >
                   {edad}
-                </button>
+                </div>
               ))}
             </div>
+            <input type="hidden" name="edades" value={formData.edades} />
             <div className="selected-values">
               Seleccionados: {selectedEdades.length > 0 ? selectedEdades.join(', ') : 'Ninguno'}
             </div>
           </div>
         </div>
 
-        <button 
-          type="submit" 
-          className="submit-button"
-          disabled={isSubmitting}
-          aria-busy={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>
-              <span className="spinner"></span>
-              Publicando...
-            </>
-          ) : (
-            'Publicar Producto'
-          )}
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Publicando...' : 'Publicar Producto'}
         </button>
       </form>
     </div>

@@ -9,23 +9,18 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Obtener datos del usuario del localStorage
-    const id_usuario = sessionStorage.getItem('id_usuario');
-    const nombre = localStorage.getItem('nombre');
-    const correo = localStorage.getItem('correo');
-    const rol = localStorage.getItem('rol');
+  const userData = {
+    id_usuario: sessionStorage.getItem('id_usuario'),
+    nombre: sessionStorage.getItem('nombre'),    // Cambiado a sessionStorage
+    correo: sessionStorage.getItem('correo'),    // Cambiado a sessionStorage
+    rol: sessionStorage.getItem('rol')           // Cambiado a sessionStorage
+  };
 
-    if (id_usuario && nombre && correo) {
-      setUser({
-        id_usuario,
-        nombre,
-        correo,
-        rol
-      });
-    }
-
-    setIsLoading(false);
-  }, []);
+  if (userData.id_usuario && userData.rol) {  // Verifica solo lo esencial
+    setUser(userData);
+  }
+  setIsLoading(false);
+}, []);
 
   if (isLoading) {
     return <div className="loading">Cargando...</div>;

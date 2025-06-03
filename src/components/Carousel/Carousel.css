@@ -1,153 +1,249 @@
-/* Contenedor principal - Usando variables CSS */
-.carousel-container {
-  max-width: 1000px;
-  margin: var(--spacing-xl) auto;
-  padding: 0 var(--spacing-md);
+/* Variables de color */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --secondary: #e11d48;
+  --accent: #3b82f6;
+  --dark: #111827;
+  --light: #f9fafb;
+  --gray: #6b7280;
 }
 
-.carousel-title {
-  composes: section-title; /* Si usas CSS Modules */
-  /* O alternativamente: */
+/* Estructura principal */
+.promo-section {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+.section-header {
   text-align: center;
-  font-size: var(--font-size-xxl);
-  margin-bottom: var(--spacing-lg);
-  letter-spacing: 1px;
-  font-weight: bold;
+  margin-bottom: 2rem;
 }
 
-/* Estilos para react-slick */
-.custom-slick {
-  border: var(--border-thick);
-}
-
-.slick-slide-item {
-  padding: 0 var(--spacing-xs);
-}
-
-.slick-dots {
-  bottom: -30px;
-}
-
-.slick-dots li button:before {
-  color: var(--primary-color);
-  font-size: var(--font-size-sm);
-}
-
-.slick-dots li.slick-active button:before {
-  color: var(--primary-color);
-}
-
-/* Tarjeta de oferta */
-.oferta-card {
-  display: flex;
-  width: 100%;
-  min-height: 400px;
-}
-
-.oferta-imagen {
-  flex: 1;
-  border-right: var(--border-thick);
-}
-
-.oferta-imagen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.oferta-contenido {
-  flex: 1;
-  padding: var(--spacing-lg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.oferta-producto {
-  font-size: var(--font-size-xl);
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
-  margin-bottom: var(--spacing-md);
-  font-weight: normal;
+  letter-spacing: 1px;
 }
 
-.oferta-precios {
-  margin-bottom: var(--spacing-lg);
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--gray);
+  font-weight: 500;
 }
 
-.precio-antiguo {
-  text-decoration: line-through;
-  margin-right: var(--spacing-md);
-  color: var(--text-light);
-}
-
-.precio-nuevo {
-  font-weight: bold;
-  font-size: var(--font-size-lg);
-}
-
-/* Botones - Reemplazados por clases estandarizadas */
-.oferta-botones {
-  display: flex;
-  gap: var(--spacing-md);
-}
-
-/* Eliminamos .boton-outlined y .boton-filled pues usaremos las clases estandarizadas */
-
-/* Contenedor del carrusel */
+/* Carrusel */
 .carousel-wrapper {
+  position: relative;
+  padding: 0 2.5rem;
+}
+
+.game-carousel {
+  margin: 0 -10px;
+}
+
+/* Tarjeta de producto */
+.game-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
 }
 
-/* Flechas personalizadas */
-.custom-arrow {
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: var(--secondary);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.game-image {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.game-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.game-card:hover .game-image img {
+  transform: scale(1.05);
+}
+
+.discount-bubble {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: var(--primary);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.game-info {
+  padding: 1.5rem;
+}
+
+.game-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 1rem;
+  min-height: 3rem;
+}
+
+.price-container {
+  margin-bottom: 1.5rem;
+}
+
+.original-price {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--gray);
+  text-decoration: line-through;
+}
+
+.discount-price {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.details-btn, .buy-btn {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.details-btn {
+  background: white;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.details-btn:hover {
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.buy-btn {
+  background: var(--primary);
+  color: white;
+}
+
+.buy-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Flechas de navegación */
+.nav-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
   background: white;
-  border: var(--border-thick);
-  color: var(--primary-color);
-  font-size: var(--font-size-lg);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50%;
   cursor: pointer;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.custom-arrow:hover {
-  background: var(--primary-color);
+.nav-arrow:hover {
+  background: var(--primary);
   color: white;
 }
 
 .prev-arrow {
-  left: -50px;
+  left: 0;
 }
 
 .next-arrow {
-  right: -50px;
+  right: 0;
 }
 
-/* Ajustes responsive para flechas */
+/* Puntos indicadores */
+.slick-dots {
+  bottom: -40px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: var(--gray);
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--primary);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .custom-arrow {
-    width: 30px;
-    height: 30px;
-    font-size: var(--font-size-md);
+  .section-title {
+    font-size: 2rem;
   }
   
-  .prev-arrow {
-    left: -30px;
+  .carousel-wrapper {
+    padding: 0 1.5rem;
   }
   
-  .next-arrow {
-    right: -30px;
+  .nav-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
   }
-}
-
-.custom-slick {
-  margin: 0 var(--spacing-md);
+  
+  .game-title {
+    font-size: 1.1rem;
+  }
+  
+  .discount-price {
+    font-size: 1.3rem;
+  }
 }

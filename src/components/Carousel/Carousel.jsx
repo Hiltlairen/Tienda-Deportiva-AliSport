@@ -1,106 +1,108 @@
-import React, { useRef } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import './Carousel.css';
+import React from 'react';
+import './EpicStyleCarousel.css';
 
-// Datos de ejemplo
-const ofertas = [
+const featuredProducts = [
   {
     id: 1,
-    name: "POLERA NEGRA",
+    name: "POLERA NEGRA PREMIUM",
     image: "/black.png",
     oldPrice: "$59.990",
-    newPrice: "$39.990"
+    newPrice: "$39.990",
+    discount: "30% OFF",
+    tag: "DESTACADO",
+    description: "Polera de algodón premium para entrenamiento y uso diario."
   },
   {
     id: 2,
-    name: "POLERA ROJA",
-    image: "/red.png",
-    oldPrice: "$45.990",
-    newPrice: "$29.990"
+    name: "CHAQUETA DEPORTIVA",
+    image: "/jacket.png",
+    oldPrice: "$89.990",
+    newPrice: "$59.990",
+    discount: "33% OFF",
+    tag: "NUEVO"
   },
   {
     id: 3,
-    name: "FASSION",
-    image: "/fassion.png",
-    oldPrice: "$79.990",
-    newPrice: "$49.990"
+    name: "POLERÓN AZUL",
+    image: "/hoodie.png",
+    oldPrice: "$65.990",
+    newPrice: "$45.990",
+    discount: "29% OFF",
+    tag: "OFERTA"
+  },
+  {
+    id: 4,
+    name: "SHORT DEPORTIVO",
+    image: "/shorts.png",
+    oldPrice: "$45.990",
+    newPrice: "$29.990",
+    discount: "34% OFF",
+    tag: "POPULAR"
   }
 ];
 
-function Carousel() {
-  const sliderRef = useRef(null);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    pauseOnHover: true,
-    arrows: false // Desactivamos las flechas nativas para usar las personalizadas
-  };
+function EpicStyleCarousel() {
+  const mainProduct = featuredProducts[0];
+  const sideProducts = featuredProducts.slice(1);
 
   return (
-    <div className="carousel-container">
-      <h2 className="carousel-title">OFERTAS DESTACADAS</h2>
-      
-      <div className="carousel-wrapper">
-        {/* Botón de navegación izquierdo */}
-        <button 
-          className="custom-arrow prev-arrow"
-          onClick={() => sliderRef.current.slickPrev()}
-        >
-          &#10094;
-        </button>
+    <div className="epic-carousel-container">
+      <div className="main-featured">
+        <div className="product-badge">{mainProduct.tag}</div>
+        <div className="discount-badge">{mainProduct.discount}</div>
         
-        {/* Carrusel principal */}
-        <Slider ref={sliderRef} {...settings} className="custom-slick">
-          {ofertas.map((oferta) => (
-            <div key={oferta.id} className="slick-slide-item">
-              <div className="oferta-card">
-                <div className="oferta-imagen">
-                  <img
-                    src={oferta.image}
-                    alt={oferta.name}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://via.placeholder.com/400x300?text=Imagen+no+disponible";
-                    }}
-                  />
+        <div className="product-image-container">
+          <img 
+            src={mainProduct.image} 
+            alt={mainProduct.name}
+            className="main-product-image"
+          />
+        </div>
+        
+        <div className="product-info">
+          <h2 className="product-title">{mainProduct.name}</h2>
+          <p className="product-description">{mainProduct.description}</p>
+          
+          <div className="price-container">
+            <span className="old-price">{mainProduct.oldPrice}</span>
+            <span className="new-price">{mainProduct.newPrice}</span>
+          </div>
+          
+          <div className="button-group">
+            <button className="details-btn">Ver detalles</button>
+            <button className="buy-btn">Comprar ahora</button>
+          </div>
+        </div>
+      </div>
+      
+      <div className="side-products">
+        {sideProducts.map(product => (
+          <div key={product.id} className="side-product-card">
+            <div className="side-product-badge">{product.tag}</div>
+            
+            <div className="side-product-content">
+              <img 
+                src={product.image} 
+                alt={product.name}
+                className="side-product-image"
+              />
+              
+              <div className="side-product-info">
+                <h3 className="side-product-title">{product.name}</h3>
+                
+                <div className="side-price-container">
+                  <span className="side-old-price">{product.oldPrice}</span>
+                  <span className="side-new-price">{product.newPrice}</span>
                 </div>
                 
-                <div className="oferta-contenido">
-                  <h3 className="oferta-producto">{oferta.name}</h3>
-                  
-                  <div className="oferta-precios">
-                    <span className="precio-antiguo">{oferta.oldPrice}</span>
-                    <span className="precio-nuevo">{oferta.newPrice}</span>
-                  </div>
-                  
-                  <div className="oferta-botones">
-                    <button className="boton-outlined">VER DETALLES</button>
-                    <button className="boton-filled">COMPRAR AHORA</button>
-                  </div>
-                </div>
+                <div className="side-discount-badge">{product.discount}</div>
               </div>
             </div>
-          ))}
-        </Slider>
-        
-        {/* Botón de navegación derecho */}
-        <button 
-          className="custom-arrow next-arrow"
-          onClick={() => sliderRef.current.slickNext()}
-        >
-          &#10095;
-        </button>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-export default Carousel;
+export default EpicStyleCarousel;
