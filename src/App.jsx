@@ -8,10 +8,13 @@ import Login from './Login/Login/Login';
 import Register from './Login/Register/Register';
 import SellerRegister from './Login/SellerRegister/SellerRegister';
 import SellerLogin from './Login/SellerLogin/SellerLogin';
+import EstadisticasPopulares from './components/EstadisticasPopulares/EstadisticasPopulares';
 // Páginas Públicas PERFIL
 import ProfilePage from './Perfil/ProfilePage';
 import ViewProduct from './Productos/Product/ViewProduct';
 import ResumenPedido from './Productos/resumen/ResumenPedido';
+import Reportes from './PerfilTienda/Reportes';
+
 //VENDEDOR
 import Dashboard from './PerfilTienda/Dashboard';
 import RegistrarTienda from './Login/RegistrarTienda/RegistrarTienda';
@@ -39,8 +42,10 @@ function App() {
           <Route path="/" element={<Inicio />} />
           <Route path="/producto/:id" element={<ViewProduct />} />
           <Route path="/resumen-pedido" element={<ResumenPedido />} />
+          <Route path="/estadisticas-populares" element={<EstadisticasPopulares />} />
 
-          
+          <Route path="/reportes" element={<Reportes />} />
+
           {/* Login */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

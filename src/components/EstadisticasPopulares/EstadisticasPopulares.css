@@ -1,0 +1,28 @@
+.tabla-estadisticas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.tabla-estadisticas th,
+.tabla-estadisticas td {
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla-estadisticas thead {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.tabla-estadisticas tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+.grafico-container {
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+  margin: 2rem auto;
+}

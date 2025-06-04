@@ -98,6 +98,11 @@ function Header() {
               <button onClick={handleProfileClick} className="nav-button">
                 Hola, {userName}
               </button>
+                  {userRole === 'vendedor' && (
+            <Link to="/reportes" className="nav-button" onClick={() => isMobile && setIsMenuOpen(false)}>
+              📊 Reportes
+            </Link>
+          )}
               <button onClick={cerrarSesion} className="nav-button outlined">
                 Cerrar Sesión
               </button>
