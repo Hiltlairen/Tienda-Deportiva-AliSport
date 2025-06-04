@@ -1,0 +1,11 @@
+.store-link {
+  color: #1e40af;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.store-link:hover {
+  color: #3b82f6;
+  text-decoration: underline;
+}

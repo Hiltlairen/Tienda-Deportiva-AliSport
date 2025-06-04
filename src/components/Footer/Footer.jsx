@@ -1,24 +1,35 @@
 import React from 'react';
 import './Footer.css';
 
-function Footer() {
+function FooterPremium() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer" role="contentinfo">
-      <div className="footer-content container"> {/* Añadida clase container */}
-        <div className="footer-section">
-          <h3 className="footer-logo">ALISPORT</h3> {/* Clase específica para logo */}
-          <p>© {currentYear} Todos los derechos reservados</p>
+    <footer className="premium-footer" role="contentinfo">
+      <div className="premium-footer-container">
+        <div className="premium-footer-main">
+          <div className="premium-footer-brand">
+            <h3 className="premium-footer-logo">ALISPORT</h3>
+            <p className="premium-footer-copyright">© {currentYear} Todos los derechos reservados</p>
+          </div>
+          
+          <div className="premium-footer-sections">
+            
+            
+            <div className="premium-footer-section">
+              <h4 className="premium-footer-heading">LEGAL</h4>
+              <ul className="premium-footer-links">
+                <li><a href="/terminos" className="premium-footer-link">Términos y Condiciones</a></li>
+                <li><a href="/privacidad" className="premium-footer-link">Política de Privacidad</a></li>
+                <li><a href="/cookies" className="premium-footer-link">Política de Cookies</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <nav className="footer-links" aria-label="Enlaces secundarios">
-          <a href="#" className="footer-link">Términos y condiciones</a>
-          <a href="#" className="footer-link">Política de privacidad</a>
-          <a href="#" className="footer-link">Contacto</a>
-        </nav>
+        
       </div>
     </footer>
   );
 }
 
-export default Footer;
+export default FooterPremium;

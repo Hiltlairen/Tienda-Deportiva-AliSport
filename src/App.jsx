@@ -22,6 +22,10 @@ import Inicio from './PaginaPrincipal/Inicio/Inicio';
 //Editar datos
 import EditarPerfil from './components/EditPerfil/EditarPerfil';
 
+import StoreLink from './components/StoreLink/StoreLink';
+import TiendaPage from './Perfil/TiendaPage';
+
+
 
 function App() {
   return (
@@ -49,7 +53,8 @@ function App() {
           {/*Perfil */}
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/editaruser" element={<EditarPerfil />} />
-          
+
+           <Route path="/tienda/:id" element={<TiendaPage />} />
           {/* Ruta 404 */}
           {/*<Route path="*" element={<NotFound />} />*/}
         </Routes>

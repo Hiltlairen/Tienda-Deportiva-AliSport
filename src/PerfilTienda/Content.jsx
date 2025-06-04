@@ -12,11 +12,14 @@ const Content = ({ selectedOption, userInfo }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (userInfo?.id_usuario) {
+        // Obtener el id_usuario del sessionStorage
+        const id_usuario = sessionStorage.getItem('id_usuario');
+        
+        if (id_usuario) {
           const res = await fetch('http://localhost/back-ropa/estado/datos_vendedor.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_usuario: userInfo.id_usuario }),
+            body: JSON.stringify({ id_usuario: id_usuario }),
           });
 
           const data = await res.json();
@@ -32,9 +35,9 @@ const Content = ({ selectedOption, userInfo }) => {
     };
 
     fetchData();
-  }, [userInfo]);
+  }, []); // Eliminamos la dependencia de userInfo ya que no la usamos más
 
-  if (!userInfo) {
+  if (!sessionStorage.getItem('id_usuario')) {
     return (
       <div className="unauthorized">
         <p>Por favor, inicia sesión para acceder al contenido.</p>
@@ -44,16 +47,16 @@ const Content = ({ selectedOption, userInfo }) => {
 
   return (
     <div className="content">
-      {selectedOption === 1 && <Option1 userInfo={userInfo} tiendaData={tienda} />}
-      {selectedOption === 2 && <Option2 userInfo={userInfo} tiendaData={tienda} />}
-      {selectedOption === 3 && <Option3 userInfo={userInfo} tiendaData={tienda} />}
+      {selectedOption === 1 && <Option1 tiendaData={tienda} />}
+      {selectedOption === 2 && <Option2 tiendaData={tienda} />}
+      {selectedOption === 3 && <Option3 tiendaData={tienda} />}
       
       {!selectedOption && (
         <div className="welcome-message">
           <h2>Panel de Control</h2>
           <p>Selecciona una opción del menú lateral para comenzar.</p>
 
-          <PerfilTienda userData={userInfo} tiendaData={tienda} />
+          <PerfilTienda tiendaData={tienda} />
         </div>
       )}
     </div>

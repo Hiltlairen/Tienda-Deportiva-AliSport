@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ViewProduct.css';
+import StoreLink from '../../components/StoreLink/StoreLink';
 
 function ViewProduct() {
   const { id } = useParams();
@@ -105,7 +106,9 @@ function ViewProduct() {
 
         <div className="product-info">
           <h1 className="product-title">{product.nombre_producto}</h1>
-          <div className="product-brand">Tienda: {product.id_tienda}</div>
+          <div className="product-brand">
+        Tienda: <StoreLink storeId={product.id_tienda} storeName={product.nombre_tienda} />
+      </div>
           
           <div className="price-container">
             <span className="current-price">S/ {parseFloat(product.precio).toFixed(2)}</span>

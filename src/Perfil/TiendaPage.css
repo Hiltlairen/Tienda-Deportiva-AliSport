@@ -1,0 +1,196 @@
+/* Variables consistentes con el header */
+:root {
+  --premium-dark: #0f172a;
+  --premium-primary: #1e40af;
+  --premium-accent: #3b82f6;
+  --premium-light: #93c5fd;
+  --premium-text-light: #ffffff;
+  --premium-text-dark: #111827;
+  --premium-text-gray: #64748b;
+  --premium-bg-light: #f8fafc;
+}
+
+/* Estructura base */
+.premium-tienda-page {
+  background-color: white;
+  min-height: 100vh;
+}
+
+/* Header de la tienda */
+.premium-tienda-header {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.premium-tienda-banner {
+  background: linear-gradient(135deg, var(--premium-primary) 0%, var(--premium-dark) 100%);
+  color: var(--premium-text-light);
+  padding: 4rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.premium-tienda-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="white"/></svg>');
+  background-size: cover;
+}
+
+.premium-tienda-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.premium-tienda-description {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+/* Información de la tienda */
+.premium-tienda-info {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
+}
+
+.premium-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--premium-dark);
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.premium-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--premium-accent);
+}
+
+.premium-tienda-details {
+  background: var(--premium-bg-light);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+.premium-detail-item {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.premium-detail-label {
+  font-weight: 600;
+  color: var(--premium-primary);
+  min-width: 120px;
+}
+
+.premium-detail-value {
+  color: var(--premium-text-dark);
+}
+
+.premium-tienda-social {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.premium-rating {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--premium-primary);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+.premium-social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+.premium-social-link {
+  color: var(--premium-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.premium-social-link:hover {
+  background: rgba(30, 64, 175, 0.1);
+  color: var(--premium-dark);
+}
+
+/* Productos */
+.premium-tienda-products {
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.premium-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.premium-no-products {
+  text-align: center;
+  color: var(--premium-text-gray);
+  padding: 2rem;
+  background: var(--premium-bg-light);
+  border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .premium-tienda-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .premium-social-links {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .premium-tienda-banner {
+    padding: 3rem 1rem;
+  }
+  
+  .premium-tienda-title {
+    font-size: 2rem;
+  }
+  
+  .premium-tienda-info,
+  .premium-tienda-products {
+    padding: 0 1rem;
+  }
+}
