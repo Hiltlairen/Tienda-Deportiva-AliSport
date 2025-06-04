@@ -5,19 +5,23 @@ import './ViewProduct.css';
 function ViewProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [sizeQuantities, setSizeQuantities] = useState({});
-  const [paymentMethod, setPaymentMethod] = useState('');
+
+  // Estado modal para mensajes
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(`http://localhost/back-ropa/producto/obtenerProductoPorId.php?id=${id}`);
         const data = await response.json();
-        
+
         if (data.success === false) {
           setError(data.message);
         } else {
@@ -39,18 +43,35 @@ function ViewProduct() {
   }, [id]);
 
   const handleQuantityChange = (size, value) => {
-    const intVal = parseInt(value) || 0;
-    setSizeQuantities(prev => ({
-      ...prev,
-      [size]: Math.max(0, intVal)
-    }));
+    if (/^\d*$/.test(value)) {
+      const intVal = value === '' ? 0 : parseInt(value);
+      setSizeQuantities(prev => ({
+        ...prev,
+        [size]: intVal >= 0 ? intVal : 0
+      }));
+    }
   };
 
   const totalUnits = () => Object.values(sizeQuantities).reduce((sum, qty) => sum + qty, 0);
 
+  const calculateTotal = () => {
+    return Object.entries(sizeQuantities).reduce(
+      (sum, [size, qty]) => sum + (qty * product.precio), 0
+    );
+  };
+
+  // Validar sesión y cantidades SOLO cuando se quiere ir al resumen
   const handleProceedToSummary = () => {
+    const userLoggedIn = sessionStorage.getItem('userLoggedIn');
+    if (!userLoggedIn) {
+      setModalMessage('Debe estar registrado para continuar con el pedido.');
+      setShowModal(true);
+      return;
+    }
+
     if (totalUnits() < product.cantidad_minima) {
-      alert(`Debe seleccionar al menos ${product.cantidad_minima} unidades en total`);
+      setModalMessage(`Debe seleccionar al menos ${product.cantidad_minima} unidades en total.`);
+      setShowModal(true);
       return;
     }
 
@@ -58,18 +79,10 @@ function ViewProduct() {
       state: {
         product,
         sizeQuantities,
-        paymentMethod,
         total: calculateTotal()
       }
     });
   };
-
-  const calculateTotal = () => {
-  return Object.entries(sizeQuantities).reduce(
-    (sum, [size, qty]) => sum + (qty * product.precio), 0
-  );
-};
-
 
   if (loading) return <div className="loading">Cargando producto...</div>;
   if (error) return <div className="error">Error: {error}</div>;
@@ -79,6 +92,24 @@ function ViewProduct() {
 
   return (
     <div className="view-product-container">
+      <button 
+        className="back-button" 
+        onClick={() => navigate('/')}
+        aria-label="Volver al inicio"
+      >
+        ← Volver
+      </button>
+
+      {/* Modal overlay que bloquea toda la pantalla */}
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <p>{modalMessage}</p>
+            <button onClick={() => setShowModal(false)} className="modal-close-btn">Cerrar</button>
+          </div>
+        </div>
+      )}
+
       <div className="breadcrumb">
         <span>{product.id_tienda.toUpperCase()}</span> &gt; 
         <span>{product.categoria}</span> &gt; 
@@ -126,34 +157,17 @@ function ViewProduct() {
                     <div key={trimmedSize} className="size-quantity-item">
                       <label>Talla {trimmedSize}</label>
                       <input
-                        type="number"
-                        min={0}
-                        max={100}
-                        value={sizeQuantities[trimmedSize] || 0}
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        value={sizeQuantities[trimmedSize] || ''}
                         onChange={(e) => handleQuantityChange(trimmedSize, e.target.value)}
                         className="quantity-input"
+                        placeholder="0"
                       />
                     </div>
                   );
                 })}
-              </div>
-            </div>
-
-            <div className="option-group">
-              <label>Método de pago preferido:</label>
-              <div className="payment-methods">
-                <button
-                  className={`payment-method ${paymentMethod === 'qr' ? 'selected' : ''}`}
-                  onClick={() => setPaymentMethod('qr')}
-                >
-                  <span className="payment-icon">📱</span> Pago QR
-                </button>
-                <button
-                  className={`payment-method ${paymentMethod === 'efectivo' ? 'selected' : ''}`}
-                  onClick={() => setPaymentMethod('efectivo')}
-                >
-                  <span className="payment-icon">💵</span> Efectivo en tienda
-                </button>
               </div>
             </div>
           </div>
@@ -171,7 +185,6 @@ function ViewProduct() {
             <button 
               className="summary-btn"
               onClick={handleProceedToSummary}
-              disabled={totalUnits() < product.cantidad_minima}
             >
               Ver Resumen del Pedido
             </button>

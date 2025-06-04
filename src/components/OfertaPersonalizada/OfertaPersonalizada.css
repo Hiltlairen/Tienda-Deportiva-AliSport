@@ -2,82 +2,122 @@
 .oferta-dividida-container {
   display: flex;
   width: 100%;
-  max-width: 800px; /* Ajusta según necesidad */
-  height: 300px;
-  border: 2px solid #000;
-  margin: 20px auto;
-  background: white;
+  max-width: 1000px;
+  height: 340px;
+  margin: 30px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8f8;
+  border: none;
 }
 
 /* Sección de imagen (izquierda) */
 .oferta-imagen {
   flex: 1;
-  border-right: 2px solid #000;
-  background-color: rgb(131, 232, 131);
-}
-
-.oferta-imagen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ajusta la imagen sin deformar */
-  display: block;
-  
+  background: linear-gradient(135deg, #a0e8e8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Sección de contenido (derecha) */
 .oferta-contenido {
   flex: 1;
-  padding: 20px;
+  padding: 40px 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background: linear-gradient(135deg, #a8e6cfaf );
 }
 
 .oferta-contenido h2 {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 28px;
+  font-weight: 700;
   text-transform: uppercase;
-  margin: 0 0 10px 0;
+  color: #333;
+  margin-bottom: 25px;
 }
 
-.oferta-contenido p {
-  font-size: 18px;
-  text-transform: uppercase;
-  margin: 0 0 20px 0;
-}
-
-/* Botones (mismo estilo que antes) */
+/* Botones */
 .oferta-botones {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .boton-outlined, .boton-filled {
-  padding: 8px 15px;
-  font-size: 12px;
+  padding: 12px 20px;
+  font-size: 14px;
   text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .boton-outlined {
- 
+  background-color: transparent;
   border: 2px solid #000;
+  color: #000;
 }
 
+.boton-outlined:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Versión rellena (opcional si usas otro botón más adelante) */
 .boton-filled {
-  background: #000;
-  color: white;
+  background-color: #000;
+  color: #fff;
   border: 2px solid #000;
 }
 
-/* Responsive (opcional) */
-@media (max-width: 600px) {
+.boton-filled:hover {
+  background-color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .oferta-dividida-container {
     flex-direction: column;
+    height: auto;
   }
+
   .oferta-imagen {
-    border-right: none;
-    border-bottom: 2px solid #000;
+    height: 250px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .oferta-contenido {
+    padding: 30px 20px;
+  }
+}
+.texto-descripcion {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.mensaje-registro {
+  margin-top: 20px;
+  padding: 12px 16px;
+  border: 1px solid #d9534f;
+  background-color: #f2dede;
+  color: #a94442;
+  font-size: 14px;
+  border-radius: 8px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

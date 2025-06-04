@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './OfertaPersonalizada.css';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
@@ -28,9 +28,21 @@ function ModeloOBJ() {
 
 function OfertaPersonalizada() {
   const navigate = useNavigate();
+  const [mensaje, setMensaje] = useState('');
 
   const manejarClick = () => {
-    navigate('/personalizar');
+    const usuario = sessionStorage.getItem('usuario');
+
+    if (usuario) {
+      // Usuario registrado, redirigir
+      navigate('/personalizar');
+    } else {
+      // Usuario no registrado, mostrar mensaje
+      setMensaje('Debes estar registrada para personalizar una prenda. ¡Inicia sesión o regístrate primero!');
+      setTimeout(() => {
+        setMensaje('');
+      }, 5000); // Limpia el mensaje después de 5 segundos
+    }
   };
 
   return (
@@ -48,11 +60,15 @@ function OfertaPersonalizada() {
 
       <div className="oferta-contenido">
         <h2>¡DISEÑALO TU MISMO!</h2>
+        <p className="texto-descripcion">
+          Crea tu propia prenda única y refleja tu estilo. Elige colores, añade tu logo o texto, y visualiza el resultado en tiempo real.
+        </p>
         <div className="oferta-botones">
           <button onClick={manejarClick} className="boton-outlined">
-            PERSONALIZAR AHORA
+            Personalizar Ahora
           </button>
         </div>
+        {mensaje && <div className="mensaje-registro">{mensaje}</div>}
       </div>
     </div>
   );
